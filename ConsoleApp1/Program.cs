@@ -31,15 +31,13 @@ namespace ConsoleApp1
                 var readKeyRequiredToWin = Console.ReadKey();
                 Console.WriteLine();
 
-                if (readKeyLineWidth.KeyChar == 13 && readKeyPlayerCount.KeyChar == 13 && readKeyRequiredToWin.KeyChar == 13)
+                if ((readKeyLineWidth.KeyChar == 13 || int.TryParse(readKeyLineWidth.KeyChar.ToString(), out _lineWidth)) &&
+                    (readKeyPlayerCount.KeyChar == 13 || int.TryParse(readKeyPlayerCount.KeyChar.ToString(), out _playerCount)) &&
+                    (readKeyRequiredToWin.KeyChar == 13 || int.TryParse(readKeyRequiredToWin.KeyChar.ToString(), out _requiredToWin)))
                 {
-                    _lineWidth = 4;
-                    _playerCount = 2;
-                    _requiredToWin = 4;
-                    StartGame();
-                }
-                else if (int.TryParse(readKeyLineWidth.KeyChar.ToString(), out _lineWidth) && int.TryParse(readKeyPlayerCount.KeyChar.ToString(), out _playerCount) && int.TryParse(readKeyRequiredToWin.KeyChar.ToString(), out _requiredToWin))
-                {
+                    _lineWidth = _lineWidth != 0 ? _lineWidth : 4;
+                    _playerCount = _playerCount != 0 ? _playerCount : 2;
+                    _requiredToWin = _requiredToWin != 0 ? _requiredToWin : 4;
                     StartGame();
                 }
                 else
