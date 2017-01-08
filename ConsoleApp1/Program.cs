@@ -8,6 +8,8 @@ namespace ConsoleApp1
     {
         private static int _playerCount;
         private static int _lineWidth;
+        private static int _requiredToWin;
+
         static void Main(string[] args)
         {
             GetStartVariables();
@@ -15,41 +17,45 @@ namespace ConsoleApp1
 
         private static void GetStartVariables()
         {
-            Console.Clear();
-            Console.WriteLine("Welkom");
-            Console.Write("Lijnbreedte (standaard = 4): ");
-            var readKeyLineWidth = Console.ReadKey();
-            Console.WriteLine();
-            Console.Write("Aantal spelers (standaard = 2): ");
-            var readKeyPlayerCount = Console.ReadKey();
-            Console.WriteLine();
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Welkom");
+                Console.Write("Lijnbreedte (standaard = 4): ");
+                var readKeyLineWidth = Console.ReadKey();
+                Console.WriteLine();
+                Console.Write("Aantal spelers (standaard = 2): ");
+                var readKeyPlayerCount = Console.ReadKey();
+                Console.WriteLine();
+                Console.Write("Aantal op een rij voor winst (standaard = 4): ");
+                var readKeyRequiredToWin = Console.ReadKey();
+                Console.WriteLine();
 
-            if (readKeyLineWidth.KeyChar == 13 && readKeyPlayerCount.KeyChar == 13)
-            {
-                _lineWidth = 4;
-                _playerCount = 2;
-                StartGame(_lineWidth, _playerCount);
-            } 
-            else if (int.TryParse(readKeyLineWidth.KeyChar.ToString(), out _lineWidth) &&
-                int.TryParse(readKeyPlayerCount.KeyChar.ToString(), out _playerCount))
-            {
-                StartGame(_lineWidth, _playerCount);
-            }
-            else
-            {
-                Console.WriteLine("Incorrect settings, please try again...");
-                Console.ReadKey();
-                GetStartVariables();
+                if (readKeyLineWidth.KeyChar == 13 && readKeyPlayerCount.KeyChar == 13 && readKeyRequiredToWin.KeyChar == 13)
+                {
+                    _lineWidth = 4;
+                    _playerCount = 2;
+                    StartGame();
+                }
+                else if (int.TryParse(readKeyLineWidth.KeyChar.ToString(), out _lineWidth) && int.TryParse(readKeyPlayerCount.KeyChar.ToString(), out _playerCount) && int.TryParse(readKeyRequiredToWin.KeyChar.ToString(), out _requiredToWin))
+                {
+                    StartGame();
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect settings, please try again...");
+                    Console.ReadKey();
+                    continue;
+                }
+                break;
             }
         }
 
-        public static void StartGame(int lineWidth, int playerCount)
+        public static void StartGame()
         {
-            var grid = new Grid(lineWidth);
+            var grid = new Grid(_lineWidth, _requiredToWin);
             int x, y;
-            List<int> winningPositions;
             var player = 1;
-            var position = 0;
             while (true)
             {
                 Console.Clear();
@@ -68,9 +74,10 @@ namespace ConsoleApp1
                 if (!int.TryParse(readKeyX.KeyChar.ToString(), out x) ||
                     !int.TryParse(readKeyY.KeyChar.ToString(), out y)) continue;
 
+                var position = 0;
                 if (grid.MakeMove(x - 1, y - 1, player, out position))
                 {
-                    
+                    List<int> winningPositions;
                     if (grid.HasWinner(position, out winningPositions))
                     {
                         Console.Clear();
@@ -80,7 +87,7 @@ namespace ConsoleApp1
                         var readLine = Console.ReadLine();
                         if (readLine != null && readLine.StartsWith("r"))
                         {
-                            StartGame(_lineWidth,_playerCount);
+                            StartGame();
                         }
                         break;
                     }

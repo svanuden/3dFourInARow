@@ -7,6 +7,7 @@ namespace ConsoleApp1.Models
 {
     public class Grid
     {
+        private readonly int _requiredToWin;
         public int VectorX = 1;
         public int VectorY = 0;
         public int VectorZ = 0;
@@ -15,8 +16,9 @@ namespace ConsoleApp1.Models
 
         public List<int> Values { get; set; }
 
-        public Grid(int lineWidth)
+        public Grid(int lineWidth, int requiredToWin)
         {
+            _requiredToWin = requiredToWin;
             VectorY = lineWidth;
             VectorZ = Convert.ToInt32(Math.Pow(lineWidth, 2));
 
@@ -155,7 +157,7 @@ namespace ConsoleApp1.Models
                     }
                     previousPosition = newPosition;
                 }
-                if (winStreak == VectorY)
+                if (winStreak == _requiredToWin)
                 {
                     return true;
                 }
@@ -191,6 +193,20 @@ namespace ConsoleApp1.Models
             }
             var currentCoord = GetCoordinate(current);
             var neighborCoord = GetCoordinate(neighbor);
+
+            if (!vector.ToString().Contains("X") && currentCoord.X != neighborCoord.X)
+            {
+                return false;
+            }
+            if (!vector.ToString().Contains("Y") && currentCoord.Y != neighborCoord.Y)
+            {
+                return false;
+            }
+            if (!vector.ToString().Contains("Z") && currentCoord.Z != neighborCoord.Z)
+            {
+                return false;
+            }
+
             switch (vector)
             {
                 case Vectors.X:
