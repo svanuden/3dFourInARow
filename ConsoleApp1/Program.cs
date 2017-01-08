@@ -35,6 +35,7 @@ namespace ConsoleApp1
                 {
                     _lineWidth = 4;
                     _playerCount = 2;
+                    _requiredToWin = 4;
                     StartGame();
                 }
                 else if (int.TryParse(readKeyLineWidth.KeyChar.ToString(), out _lineWidth) && int.TryParse(readKeyPlayerCount.KeyChar.ToString(), out _playerCount) && int.TryParse(readKeyRequiredToWin.KeyChar.ToString(), out _requiredToWin))
