@@ -11,31 +11,9 @@ namespace ConsoleApp1.Models
         public int VectorY = 0;
         public int VectorZ = 0;
 
-        [Flags]
-        public enum Vectors
-        {
-            X,
-            Y,
-            Z,
-            XY,
-            minXY,
-            YZ,
-            minYZ,
-            XZ,
-            minXZ,
-            XYZ,
-            minXYZ,
-            XminYZ,
-            minXminYZ
-        }
+        private Dictionary<Vectors, int> VectorValues { get; set; }
 
-        public enum Direction
-        {
-            Up,
-            Down
-        }
-
-        public Dictionary<Vectors, int> VectorValues { get; set; }
+        public List<int> Values { get; set; }
 
         public Grid(int lineWidth)
         {
@@ -65,8 +43,6 @@ namespace ConsoleApp1.Models
                 Values.Add(0);
             }
         }
-
-        public List<int> Values { get; set; }
 
         public string Draw(List<int> winningPositions = null)
         {
@@ -284,6 +260,30 @@ namespace ConsoleApp1.Models
             }
 
             return true;
+        }
+
+        [Flags]
+        public enum Vectors
+        {
+            X,
+            Y,
+            Z,
+            XY,
+            minXY,
+            YZ,
+            minYZ,
+            XZ,
+            minXZ,
+            XYZ,
+            minXYZ,
+            XminYZ,
+            minXminYZ
+        }
+
+        public enum Direction
+        {
+            Up,
+            Down
         }
 
         public class Coordinate
