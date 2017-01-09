@@ -118,14 +118,14 @@ namespace ConsoleApp1.Models
 
             var currentPlayer = Values[position];
             var direction = Direction.Up;
-            const int maxSteps = 4;
+            const int maxSteps = VectorY;
             foreach (var vv in VectorValues)
             {
                 var winStreak = 1;
                 var newPosition = position;
                 var previousPosition = position;
 
-                for (var i = 0; i < maxSteps; i++)
+                for (var i = 0; i <= maxSteps; i++)
                 {
                     if (direction == Direction.Up)
                     {
